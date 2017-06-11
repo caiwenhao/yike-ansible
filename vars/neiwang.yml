@@ -1,0 +1,45 @@
+---
+
+sites:
+  gztest_h5:
+    domain: "nwtest-h5"
+    root: "/data/web/webapps/h5"
+    type: "tomcat"
+    timeout: 60
+    ignore_client: "on"
+    static: "True"
+    upstream:
+      - ip: "{{ansible_default_ipv4.address}}"
+        port: 8080
+        enbale: true
+        jxm_port1: 12340
+        jxm_port2: 12341
+        shutdown_port: 8000
+  gztest_s5:
+    domain: "nwtest-s5"
+    root: "/data/web/webapps/s5"
+    type: "tomcat"
+    timeout: 60
+    ignore_client: "on"
+    static: "True"
+    upstream:
+      - ip: "{{ansible_default_ipv4.address}}"
+        port: 8081
+        enbale: true
+        jxm_port1: 12342
+        jxm_port2: 12343
+        shutdown_port: 8001
+  gztest_task:
+    domain: "nwtest-task"
+    root: "/data/web/webapps/task"
+    type: "tomcat"
+    timeout: 60
+    ignore_client: "off"
+    static: "True"
+    upstream:
+      - ip: "{{ansible_default_ipv4.address}}"
+        port: 8082
+        enbale: true
+        jxm_port1: 12344
+        jxm_port2: 12345
+        shutdown_port: 8002

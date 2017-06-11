@@ -1,0 +1,57 @@
+sites:
+  sports:
+    domain: "sports"
+    root: "/data/web/webapps/"
+    timeout: 60
+    ignore_client: "on"
+    static: "False"
+    nginx:
+      - ip: '10.10.244.217'
+      - ip: '10.10.214.88'
+      - ip: '10.10.229.248'
+      - ip: '10.10.242.134'
+      - ip: '10.10.229.134'
+
+  devicegateway:
+    domain: "devicegateway-wd"
+    root: "/data/web/webapps/"
+    timeout: 60
+    ignore_client: "on"
+    static: "False"
+
+  websocket:
+    domain: "websocket"
+    root: "/data/web/webapps/"
+    timeout: 180
+    ignore_client: "on"
+    static: "False"
+    nginx:
+      - ip: '10.10.244.217'
+      - ip: '10.10.214.88'
+      - ip: '10.10.229.248'
+      - ip: '10.10.242.134'
+      - ip: '10.10.229.134'
+
+  static_sports:
+    domain: "static.sports"
+    root: "/data/web/webapps/static.sports"
+    timeout: 180
+    ignore_client: "off"
+    static: "False"
+
+  sp:
+    domain: "sp"
+    root: "/data/web/webapps/static.sports/"
+    timeout: 180
+    ignore_client: "on"
+    static: "False"
+
+  doctor:
+    domain: "doctor"
+    root: "/data/web/webapps/static.sports/"
+    static: "False"
+
+  doctor:
+    domain: "doctor"
+    root: "/data/web/webapps/static.sports/"
+    static: "False"

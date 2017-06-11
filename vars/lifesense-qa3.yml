@@ -1,0 +1,27 @@
+soa_env:
+  lifesense_qa3:
+    project_env: "lifesense-qa3"
+    tingyun: "false"
+    log_level: "debug"
+
+sites:
+  sprots_qa3:
+    domain: "sports-qa3"
+    root: "/data/web/webapps/"
+    timeout: 60
+    ignore_client: "on"
+    static: "False"
+  health_qa3:
+    domain: "health-qa3"
+    root: "/data/web/webapps/"
+    timeout: 60
+    ignore_client: "on"
+    static: "False"
+  websocket_qa3:
+    domain: "websocket-qa3"
+    root: "/data/web/webapps/"
+    timeout: 60
+    ignore_client: "on"
+    static: "False"
+    nginx:
+      - ip: '10.10.236.250'

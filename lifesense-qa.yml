@@ -1,0 +1,10 @@
+---
+
+- name: qa_zk
+  hosts: qa_zk
+  gather_facts: True
+  vars_files:
+    - vars/lifesense-qa.yml
+  roles:
+    - { role: zookeeper,zk: "{{zookeepers}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+    - { role: kafka,kf: "{{kafka}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }

@@ -1,0 +1,37 @@
+---
+
+- name: k8s_node
+  hosts: k8s_node
+  gather_facts: True
+  vars_files:
+    - vars/international.yml
+  roles:
+    - { role: zookeeper,zk: "{{zookeepers}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+    - { role: kafka,kf: "{{kafka}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+
+- name: k8s_master
+  hosts: k8s_master
+  gather_facts: True
+  vars_files:
+    - vars/international.yml
+  roles:
+    - { role: k8s-config, soa_info: "{{soa_env}}"}
+
+- name: k8s_node
+  hosts: k8s_node
+  gather_facts: True
+  vars_files:
+    - vars/international.yml
+    - roles/k8s-config/vars/main.yml
+  roles:
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.disconf}}",nginx_type: disconf  }
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.lifesense_en}}",soa_info: "{{soa_env}}",nginx_type: rest,enable_upstream: true }
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.international}}",soa_info: "{{soa_env}}",nginx_type: rest,enable_upstream: false}
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.static_en}}",nginx_type: static }
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.websocket_en}}",soa_info: "{{soa_env}}",nginx_type: websocket2 }
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.yw_en}}",nginx_type: yw }
+
+- name:
+  hosts: 10.11.8.146
+  roles:
+    - { role: rsync, env: "en" }

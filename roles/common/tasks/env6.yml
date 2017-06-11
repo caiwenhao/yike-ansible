@@ -1,0 +1,69 @@
+---
+
+- name:
+  template: src=bashrc.j2 dest=/root/.bashrc
+  tags: env6
+
+- name:
+  lineinfile:
+    dest=/etc/sysconfig/i18n
+    state=present
+    regexp='^LANG'
+    line='LANG="en_US.UTF-8"'
+  tags: env6
+
+- name:
+  lineinfile:
+    dest=/etc/sysconfig/i18n
+    state=present
+    insertafter="^LANG"
+    line='SYSFONT="latarcyrheb-sun16"'
+  tags: env6
+
+- name:
+  template: src=bash_profile.j2 dest=/root/.bash_profile
+  tags: env6
+
+- name:
+  lineinfile:
+    dest=/etc/profile
+    state=present
+    regexp='^HISTTIMEFORMAT'
+    line='HISTTIMEFORMAT="%Y/%m/%d %H:%M:%S "'
+  tags: env6
+
+- name:
+  lineinfile:
+    dest=/etc/profile
+    state=present
+    regexp='^HISTFILESIZE'
+    line='HISTFILESIZE=100000'
+  tags: env6
+
+- name:
+  lineinfile: dest=/etc/profile state=present regexp='^HISTSIZE' line='HISTSIZE=999999999'
+  tags: env6
+
+- name:
+  lineinfile: dest=/etc/sysconfig/network regexp='^HOSTNAME=' insertafter='^#HOSTNAME=' line='HOSTNAME={{PS1}}-{{ansible_default_ipv4.address}}-{{ssh_port}}-{{NUM}}'
+  tags: env6
+
+- name:
+  shell: /bin/hostname {{PS1}}-{{ansible_default_ipv4.address}}-{{ssh_port}}-{{NUM}}
+  tags: env6
+
+- name:
+  shell: "grep ' {{PS1}}-{{ansible_default_ipv4.address}}-{{ssh_port}}-{{NUM}}' /etc/hosts > /dev/null 2>&1 || sed -i -E 's/^{{ansible_default_ipv4.address}} (.*)/{{ansible_default_ipv4.address}} {{PS1}}-{{ansible_default_ipv4.address}}-{{ssh_port}}-{{NUM}} \\1/' /etc/hosts"
+  tags: env6
+
+- name:
+  lineinfile: dest=/etc/fstab state=present regexp='^/dev/vdb /data ext4 defaults,noatime 0 0' line='/dev/vdb /data ext4 defaults,noatime,nodiratime 0 0'
+  tags: env6
+
+- name:
+  lineinfile: dest=/etc/bashrc state=present regexp="^PROMPT_COMMAND=" line="PROMPT_COMMAND='history -a"
+  tags: env6
+
+- name:
+  lineinfile: dest=/etc/hostname state=present regexp=".*" line="{{hostname}}"
+  tags: env6

@@ -1,0 +1,15 @@
+---
+
+ntp_server: ["10.10.255.1","10.10.255.2","0.cn.pool.ntp.org"]
+ssh_port: 22
+NUM: A
+dns_server: ['ntp1.aliyun.com','ntp2.aliyun.com','ntp3.aliyun.com']
+swapfile_size: 8192
+swapfile_path: /data/swap/swap1
+admin_user: uxuanjia
+admin_pass: '$6$rounds=656000$HIX5q1ZZ.BiyUExI$upn4nJoolhHQ2GfKLUyML2HLIFRfnswJcipKcD51XzgKXangGB2xablBSU8aAJmMu26hzPi4rvhwWS0y9SQW5/'
+zabbix_server: 10.10.89.24
+zabbix_server_port: 30051
+domain_lx: ".uxuanjia.com"
+file_server: http://123.59.78.95/ansible
+

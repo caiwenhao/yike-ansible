@@ -1,0 +1,16 @@
+---
+
+- name:
+  yum: name={{ item }} state=present
+  when: ansible_distribution_major_version == "7"
+  with_items:
+   - iptables-services
+  tags: iptables
+
+- name:
+  template: src=iptables.j2 dest=/etc/sysconfig/iptables
+  tags: iptables
+
+- name:
+  service: name=iptables enabled=no state=stopped
+  tags: iptables

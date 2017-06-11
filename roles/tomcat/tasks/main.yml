@@ -1,0 +1,25 @@
+---
+
+- name:
+  get_url: url={{file_server}}/apr.tar.bz2 dest=/dist/src/apr.tar.bz2
+  tags: tomcat
+
+- name:
+  get_url: url={{file_server}}/cronolog.tar.bz2 dest=/dist/src/cronolog.tar.bz2
+  tags: tomcat
+
+- name:
+  file: path=/data/apps/deps/ state=directory
+  tags: tomcat
+
+- name:
+  shell: tar xf /dist/src/apr.tar.bz2 -C /data/apps/deps/ creates=/data/apps/deps/apr/bin/apr-1-config
+  tags: tomcat
+
+- name:
+  shell: tar xf /dist/src/cronolog.tar.bz2 -C /data/apps/deps/ creates=/data/apps/deps/cronolog/sbin/cronolog
+  tags: tomcat
+
+- include: install_tomcat.yml upstream="{{site.upstream}}" appbase="{{site.tomcat_root}}"
+- include: remove_tomcat.yml upstream="{{site.upstream}}"
+  tags: tomcat

@@ -1,0 +1,23 @@
+PidFile=/tmp/zabbix_agentd.pid
+LogFile=/data/logs/zabbix_agentd.log
+LogFileSize=100
+DebugLevel=3
+EnableRemoteCommands=1
+LogRemoteCommands=1
+##### Passive checks related
+Server={{zabbix_server}}
+ListenPort=30050
+StartAgents=5
+##### Active checks related
+ServerActive={{zabbix_server}}:{{zabbix_server_port}}
+Hostname={{PS1}}-{{ansible_default_ipv4.address}}-{{ssh_port}}-{{NUM}}
+RefreshActiveChecks=120
+BufferSend=30
+BufferSize=100
+MaxLinesPerSecond=100
+############ ADVANCED PARAMETERS #################
+Timeout=30
+AllowRoot=1
+####### USER-DEFINED MONITORED PARAMETERS #######
+UnsafeUserParameters=1
+UserParameter=mc.py[*],/usr/bin/python /data/apps/zabbix/sbin/zabbix_agentd.py -m $1 $2 $3 $4 $5 $6

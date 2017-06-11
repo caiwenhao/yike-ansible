@@ -1,0 +1,21 @@
+---
+
+
+- name: install ruby2.0 gpg --keyserver
+  command: gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+  run_once: true
+
+- name: install ruby2.0 rvm
+  shell: curl -sSL https://get.rvm.io | bash -s stable
+  run_once: true
+
+- name: rvm install 2.0.0
+  command: /usr/local/rvm/bin/rvm install 2.0.0
+  run_once: true
+
+- name: ln rvm
+  file: src=/usr/local/rvm/bin/rvm dest=/sbin/rvm state=link
+
+- name: rvm use 2.0.0 --default
+  shell: /bin/bash --login ;/usr/local/rvm/bin/rvm use 2.0.0 --default
+  run_once: true

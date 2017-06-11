@@ -1,0 +1,16 @@
+---
+
+
+- name: install backup
+  include: install.yml
+
+- name: configure backup
+  include: configure.yml
+
+- name: set crond
+  command: whenever --update-crontab
+  args:
+    chdir: /data/Backup
+  environment:
+    PATH: "/usr/local/rvm/rubies/ruby-2.0.0-p648/bin/:/usr/local/rvm/bin:/usr/local/sbin:/usr/local/bin:/bin:/usr/sbin:/usr/bin:/root/bin:/usr/local/bin:/root/bin"
+  run_once: true

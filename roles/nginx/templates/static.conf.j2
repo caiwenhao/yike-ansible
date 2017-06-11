@@ -1,0 +1,17 @@
+server {
+    listen          80 ;
+    listen          443 ssl ;
+    server_name     {{site.domain}}{{domain_lx}};
+    ssl_certificate     SSL/server.pem;
+    ssl_certificate_key SSL/server.key;
+    charset         utf-8;
+    root {{site.root}};
+    index index.html index.htm index.jsp;
+    access_log      off;
+    location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|ico)$ {
+       expires      60d;
+    }
+    location ~ .*\.(js|css)$ {
+       expires      30d;
+    }
+}

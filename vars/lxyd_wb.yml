@@ -1,0 +1,19 @@
+sites:
+  game:
+    domain: "game-01.game.soprt"
+    root: "/data/web/"
+    timeout: 60
+    ignore_client: "on"
+    static: "True"
+    nginx:
+      - ip: '127.0.0.1'
+        port: 9000
+  phpmyadmin:
+    domain: "phpmyadmin.game.soprt"
+    root: "/data/web/phpmyadmin"
+    timeout: 60
+    ignore_client: "on"
+    static: "True"
+    nginx:
+      - ip: '127.0.0.1'
+        port: 9000

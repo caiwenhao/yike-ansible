@@ -1,0 +1,10 @@
+server {
+    listen          80 ;
+    server_name     {{site.domain}}{{domain_lx}};
+    charset         utf-8;
+    access_log      /data/logs/nginx/{{site.domain}}_access.log access;
+    location / {
+        rewrite (.*) https://cdn.lifesense.com/healthmanagement$1 permanent;
+    }
+
+}

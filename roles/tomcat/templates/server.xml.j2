@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Server port="{{item.shutdown_port}}" address="127.0.0.1" shutdown="SHUTDOWN">
+  <Listener className="org.apache.catalina.startup.VersionLoggerListener" />
+  <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="off" />
+  <Listener className="org.apache.catalina.core.JasperListener" />
+  <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" />
+  <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+  <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener" />
+  <Service name="Catalina">
+    <Executor name="tomcatThreadPool{{item.port}}"
+              namePrefix="tomcatThreadPool{{item.port}}-exec-"
+              maxThreads="512"
+              minSpareThreads="512"
+              maxIdleTime="60000"/>
+    <Connector port="{{item.port}}" protocol="org.apache.coyote.http11.Http11AprProtocol"
+               connectionTimeout="{{site.timeout}}000"
+               keepAliveTimeout="60000"
+               maxKeepAliveRequests="384"
+               acceptCount="1024"
+               server="lx"
+               URIEncoding="UTF-8"
+               executor="tomcatThreadPool{{item.port}}" />
+    <Engine name="Catalina" defaultHost="localhost">
+      <Realm className="org.apache.catalina.realm.LockOutRealm">
+      </Realm>
+      <Host name="localhost"  appBase="{{appbase}}"
+            unpackWARs="false" autoDeploy="false">
+        <Listener className="org.apache.catalina.mbeans.JmxRemoteLifecycleListener" rmiRegistryPortPlatform="{{item.jxm_port1}}" rmiServerPortPlatform="{{item.jxm_port2}}" />
+      </Host>
+    </Engine>
+  </Service>
+</Server>

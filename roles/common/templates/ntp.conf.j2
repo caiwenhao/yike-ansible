@@ -1,0 +1,19 @@
+driftfile /var/lib/ntp/drift
+restrict default kod nomodify notrap nopeer noquery
+restrict -6 default kod nomodify notrap nopeer noquery
+
+restrict 127.0.0.1
+{% for i in ntp_server %}
+server {{ i }}
+{% endfor %}
+restrict -6 ::1
+
+{% for i in ntp_server %}
+server {{ i }} iburst minpoll 3 maxpoll 4 prefer
+{% endfor %}
+
+tinker dispersion 100
+tinker step 1800
+tinker stepout 3600
+includefile /etc/ntp/crypto/pw
+keys /etc/ntp/keys

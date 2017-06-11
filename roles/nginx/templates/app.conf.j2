@@ -1,0 +1,44 @@
+upstream {{site.domain}} {
+{% for up in site.upstream %}
+        server {{up.ip}}:{{up.port}};
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+        check interval=1000 rise=1 fall=1 timeout=1000 type=http default_down=true;
+        check_http_expect_alive http_2xx http_3xx http_4xx;
+    }
+server {
+    listen          80 ;
+    server_name     {{site.domain}}{{domain_lx}};
+    charset         utf-8;
+    root {{site.root}};
+    index index.html index.htm index.jsp;
+    access_log      /data/logs/nginx/{{site.domain}}_access.log access;
+  {% if site.static == "True" %}
+    location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|ico)$ {
+       expires      1d;
+    }
+    location ~ .*\.(js|css)$ {
+       expires      10h;
+    }
+  {% endif %}
+
+    location = /lxwd_logo.png {
+        expires      off;
+    }
+
+    location = /favicon.ico {
+        expires      7d;
+    }
+
+    location / {
+        chunked_transfer_encoding off;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://{{site.domain}};
+    }
+}

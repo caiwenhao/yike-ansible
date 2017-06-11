@@ -1,0 +1,83 @@
+---
+
+- name:
+  yum: name={{ item }} state=present
+  with_items:
+    - tar
+    - gzip
+  tags: zabbix
+
+- name:
+  group: name=zabbix state=present
+  tags: zabbix
+
+- name:
+  user: name=zabbix state=present comment=zabbix group=zabbix shell=/sbin/nologin
+  tags: zabbix
+
+- name:
+  file: path={{ item }} state=directory
+  with_items:
+    - /dist/src
+    - /data/logs
+    - /data/apps
+  tags: zabbix
+
+- name:
+  get_url: url={{file_server}}/zabbix_agentd-3.0.1_centos7.tar.bz2 dest=/dist/src/zabbix_agentd-3.0.1_centos7.tar.bz2 sha256sum=de6eef1747200af5a7db1976bd45be2c1c529ec3feef4a01abe42e982ada5686
+  when: ansible_distribution_major_version == "7"
+  tags: zabbix
+
+- name:
+  shell: tar xf /dist/src/zabbix_agentd-3.0.1_centos7.tar.bz2 -C /data/apps/ creates=/data/apps/zabbix/
+  when: ansible_distribution_major_version == "7"
+  tags: zabbix
+
+- name:
+  get_url: url={{file_server}}/zabbix_agentd-3.0.1.tar.bz2 dest=/dist/src/zabbix_agentd-3.0.1.tar.bz2 sha256sum=9d387aa8d9d6bf6d48f21f657a873a48c4d30cef5ed62c4dd15cbcb0dbb41d1d
+  when: ansible_distribution_major_version == "6"
+  tags: zabbix
+
+- name:
+  shell: tar xf /dist/src/zabbix_agentd-3.0.1.tar.bz2 -C /data/apps/ creates=/data/apps/zabbix/
+  when: ansible_distribution_major_version == "6"
+  tags: zabbix
+
+- name:
+  file: path=/etc/init.d/zabbix_agentd state=link src=/data/apps/zabbix/init.d/zabbix_agentd mode=775 force=yes
+  tags: zabbix
+
+- name:
+  copy: dest=/data/apps/zabbix/sbin/zabbix_agentd.py src=zabbix_agentd3.py owner=root group=root
+  tags: zabbix
+
+- name:
+  copy: dest=/root/.mylogin.cnf src=mylogin.cnf owner=root group=root mode=600
+  tags: zabbix
+
+- name:
+  get_url: url={{file_server}}/cmdline-jmxclient-0.10.3.jar dest=/data/apps/zabbix/sbin/cmdline-jmxclient-0.10.3.jar owner=root group=root
+  tags: zabbix
+
+
+- name:
+  lineinfile:
+    dest=/data/logs/zabbix_agentd.log
+    state=present
+    line=''
+    create=yes
+  tags: zabbix
+
+- name:
+  copy: dest=/usr/lib/systemd/system/zabbix_agentd.service src=zabbix_agentd.service
+  tags: zabbix
+
+- name:
+  template: src=zabbix_agentd.conf.j2 dest=/data/apps/zabbix/etc/zabbix_agentd.conf
+  notify:
+    - restart zabbix_agentd
+  tags: zabbix
+
+- name:
+  service: name=zabbix_agentd state=running enabled=yes
+  tags: zabbix

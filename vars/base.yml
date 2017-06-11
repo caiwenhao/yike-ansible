@@ -1,0 +1,191 @@
+kafka:
+  base_online:
+    kafka_version: "kafka_2.11-0.9.0.0"
+    zookeeper: "10.10.111.253:2181,10.10.97.68:2181,10.10.111.213:2181"
+    cluster:
+      - ID: 1
+        IP: "10.10.111.253"
+        Port: 9091
+      - ID: 2
+        IP: "10.10.97.68"
+        Port: 9091
+      - ID: 3
+        IP: "10.10.111.213"
+        Port: 9091
+  base:
+    kafka_version: "kafka_2.11-0.9.0.0"
+    zookeeper: "10.10.191.122:2181,10.10.160.136:2181,10.10.158.109:2181"
+    cluster:
+      - ID: 1
+        IP: "10.10.227.209"
+        Port: 9091
+      - ID: 2
+        IP: "10.10.228.220"
+        Port: 9091
+      - ID: 3
+        IP: "10.10.233.55"
+        Port: 9091
+  base_log:
+    kafka_version: "kafka_2.11-0.9.0.0"
+    zookeeper: "10.10.214.54:2181,10.10.244.44:2181,10.10.247.218:2181"
+    cluster:
+      - ID: 1
+        IP: "10.10.214.54"
+        Port: 9091
+      - ID: 2
+        IP: "10.10.244.44"
+        Port: 9091
+      - ID: 3
+        IP: "10.10.247.218"
+        Port: 9091
+  logs_kafka:
+    kafka_version: "kafka_2.11-0.9.0.0"
+    zookeeper: "10.10.35.119:2181,10.10.45.253:2181,10.10.13.208:2181"
+    cluster:
+      - ID: 1
+        IP: "10.10.35.119"
+        Port: 9092
+      - ID: 2
+        IP: "10.10.45.253"
+        Port: 9092
+      - ID: 3
+        IP: "10.10.13.208"
+        Port: 9092
+
+
+zookeepers:
+  base_online:
+    zk_version: "zookeeper-3.4.6"
+    cluster:
+      - ID: 1
+        IP: "10.10.55.157"
+        HOST: "lx_base_zk_10.10.55.157_22_A"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+      - ID: 2
+        IP: "10.10.99.185"
+        HOST: "lx_base_zk_10.10.99.185_22_B"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+      - ID: 3
+        IP: "10.10.110.180"
+        HOST: "lx_base_zk_10.10.110.180_22_C"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+  base_online_kafka:
+    zk_version: "zookeeper-3.4.6"
+    cluster:
+      - ID: 1
+        IP: "10.10.111.253"
+        HOST: "lx_base_kafka_10.10.111.253_22_A"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+      - ID: 2
+        IP: "10.10.97.68"
+        HOST: "lx_base_kafka_10.10.97.68_22_B"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+      - ID: 3
+        IP: "10.10.111.213"
+        HOST: "lx_base_kafka_10.10.111.213_22_C"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+  base:
+    zk_version: "zookeeper-3.4.6"
+    cluster:
+      - ID: 1
+        IP: "10.10.191.122"
+        HOST: "lx_base_zk_10.10.191.122_22_A"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+      - ID: 2
+        IP: "10.10.160.136"
+        HOST: "lx_base_zk_10.10.160.136_22_B"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+      - ID: 3
+        IP: "10.10.158.109"
+        HOST: "lx_base_zk_10.10.158.109_22_C"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+  base_logs:
+    zk_version: "zookeeper-3.4.6"
+    cluster:
+      - ID: 1
+        IP: "10.10.214.54"
+        HOST: "lx_base_logs_10.10.214.54_22_A"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+      - ID: 2
+        IP: "10.10.244.44"
+        HOST: "lx_base_logs_10.10.244.44_22_B"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+      - ID: 3
+        IP: "10.10.247.218"
+        HOST: "lx_base_logs_10.10.247.218_22_C"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+  logs_kafka:
+    zk_version: "zookeeper-3.4.6"
+    cluster:
+      - ID: 1
+        IP: "10.10.35.119"
+        HOST: "lx_logs_kafka-10.10.35.119-22-A"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+      - ID: 2
+        IP: "10.10.45.253"
+        HOST: "lx_logs_kafka-10.10.45.253-22-B"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+      - ID: 3
+        IP: "10.10.13.208"
+        HOST: "lx_logs_kafka-10.10.13.208-22-C"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+
+flume_info:
+  flume_test:
+    flume_version: "flume-1.6"
+    cluster:
+      - IP: "10.10.23.126"
+        Port: 41414
+        MonitorPort: 34544
+        Type: "flume_elasticsearch"
+sites:
+  disconf:
+    domain: "online.disconf"
+    root: "/data/web/webapps/html"
+    type: "tomcat"
+    tomcat_root: "/data/web/webapps"
+    timeout: 60
+    ignore_client: "on"
+    static: "False"
+    nginx:
+      - ip: '10.10.244.49'
+        port: 8080
+      - ip: '10.10.244.49'
+        port: 8080
+    upstream:
+      - ip: "{{ansible_default_ipv4.address}}"
+        port: 8080
+        enbale: true
+        jxm_port1: 12340
+        jxm_port2: 12341
+        shutdown_port: 8000

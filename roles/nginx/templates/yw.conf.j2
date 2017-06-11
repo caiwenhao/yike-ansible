@@ -1,0 +1,43 @@
+upstream showdoc_service {
+        server showdoc-svc.lifesense-yw.svc.cluster.local:80;
+        keepalive 2560;
+    }
+
+server {
+    listen          80 ;
+    server_name     {{site.domain}}{{domain_lx}};
+    charset         utf-8;
+    access_log      /data/logs/nginx/{{site.domain}}_access.log access;
+    {% if site.static == "True" %}
+
+    location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|ico)$ {
+       expires      1d;
+    }
+
+    location ~ .*\.(js|css)$ {
+       expires      10h;
+    }
+    {% endif %}
+
+    location = /lxwd_logo.png {
+        expires      off;
+    }
+
+    location = /favicon.ico {
+        expires      7d;
+    }
+
+    location /showdoc {
+        rewrite /showdoc/(.*) /$1 break;
+        rewrite /showdoc$ / permanent;
+        chunked_transfer_encoding on;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://showdoc_service;
+    }
+
+}

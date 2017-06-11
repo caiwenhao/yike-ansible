@@ -1,0 +1,21 @@
+---
+
+- name:
+  yum: name={{ item }} state=present
+  with_items:
+   - glib2-devel
+   - irqbalance
+   - rsyslog
+   - sysstat
+  tags: service6
+
+- name:
+  service: name={{item}} state=stopped enabled=no
+  with_items: [NetworkManager,acpid,dnsmasq,kdump,messagebus,wpa_supplicant,ntpdate]
+  ignore_errors: yes
+  tags: service6
+
+- name:
+  service: name={{item}} enabled=yes
+  with_items: [crond,irqbalance,rsyslog,sysstat]
+  tags: service6

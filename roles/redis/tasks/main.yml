@@ -1,0 +1,43 @@
+---
+
+- name:
+  file: path=/dist/src/ state=directory
+  tags: redis
+
+- name:
+  file: path=/data/apps/ state=directory
+  tags: redis
+
+- name:
+  get_url: url={{file_server}}/{{redis_version}}.tar.bz2 dest=/dist/src/{{redis_version}}.tar.bz2
+  tags: redis
+
+- name:
+  unarchive: src=/dist/src/{{redis_version}}.tar.bz2 dest=/data/apps/ group=root owner=root creates=/data/apps/{{redis_version}}/bin/redis-server copy=no
+  tags: redis
+
+- name:
+  copy: src="redis" dest=/data/apps/{{redis_version}}/init.d/redis mode=775
+  tags: redis
+
+- name:
+  file: path=/etc/init.d/redis state=link src=/data/apps/{{redis_version}}/init.d/redis mode=775
+  tags: redis
+
+- name:
+  template: src=redis.conf.j2 dest=/data/apps/{{redis_version}}/etc/redis.conf
+  tags: redis
+
+- name:
+  file: path=/data/redis/6379/log state=directory
+  tags: redis
+
+- name:
+  file: path=/data/redis/6379/data state=directory
+  tags: redis
+
+- name:
+  service: name=redis state=running enabled=yes pattern=redis-server
+  tags: redis
+
+

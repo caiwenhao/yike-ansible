@@ -1,0 +1,99 @@
+---
+
+- name:
+  yum: name={{ item }} state=present
+  with_items:
+   - openssh-server
+   - openssh-clients
+   - openssh
+  tags: sshd
+
+- name:
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    state=present
+    regexp='^#?Port'
+    line="Port {{ssh_port}}"
+  notify: reload sshd
+  tags: sshd
+
+- name:
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    state=present
+    regexp='^#?UseDNS'
+    line="UseDNS no"
+  notify: reload sshd
+  tags: sshd
+
+- name:
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    state=present
+    regexp='^#?AddressFamily'
+    line="AddressFamily inet"
+  notify: reload sshd
+  tags: sshd
+
+- name:
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    state=present
+    regexp='^#?LogLevel'
+    line="LogLevel VERBOSE"
+  notify: reload sshd
+  tags: sshd
+
+- name:
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    state=present
+    regexp='^#?PermitEmptyPasswords'
+    line="PermitEmptyPasswords no"
+  notify: reload sshd
+  tags: sshd
+
+- name:
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    state=present
+    regexp='^#?PermitRootLogin'
+    line="PermitRootLogin no"
+  notify: reload sshd
+  tags: sshd
+
+- name:
+  lineinfile:
+    dest=/etc/ssh/ssh_config
+    state=present
+    regexp='^#?StrictHostKeyChecking'
+    line="StrictHostKeyChecking no"
+  notify: reload sshd
+  tags: sshd
+
+- name:
+  lineinfile:
+    dest=/etc/ssh/ssh_config
+    state=present
+    regexp='^#?ForwardAgent'
+    line="ForwardAgent yes"
+  notify: reload sshd
+  tags: sshd
+
+- name:
+  file:
+    path: /root/.ssh
+    state: 'directory'
+    owner: 'root'
+    group: 'root'
+    mode: '0700'
+  tags: sshd
+
+- name:
+  service: name=sshd state=running enabled=yes
+  tags: sshd
+
+#sed -i "s#PasswordAuthentication yes#PasswordAuthentication no#g"  /etc/ssh/sshd_config
+#PermitRootLogin no   #root用户黑客都知道，禁止它远程登录
+#ssh普通用户(非root用户)的密钥登录
+#http://blog.csdn.net/jom_ch/article/details/9285683

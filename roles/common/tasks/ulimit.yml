@@ -1,0 +1,57 @@
+---
+
+- name:
+  lineinfile:
+    dest=/etc/profile
+    state=present
+    regexp='^ulimit -S'
+    line='ulimit -S -c 0'
+  tags: ulimit
+
+- name:
+  lineinfile:
+    dest=/etc/profile
+    state=present
+    regexp='^ulimit -n'
+    line='ulimit -n 655350'
+  tags: ulimit
+
+- name:
+  lineinfile:
+    dest=/etc/rc.local
+    state=present
+    regexp='^ulimit'
+    line='ulimit -SHn 655350'
+  tags: ulimit
+
+- name:
+  lineinfile:
+    dest=/etc/security/limits.conf
+    state=present
+    line='* hard nofile 1000000'
+  tags: ulimit
+
+- name:
+  lineinfile:
+    dest=/etc/security/limits.conf
+    state=present
+    line='* soft nofile 1000000'
+  tags: ulimit
+
+- name:
+  lineinfile:
+    dest=/etc/security/limits.conf
+    state=present
+    line='* soft core unlimited'
+  tags: ulimit
+
+- name:
+  lineinfile:
+    dest=/etc/security/limits.conf
+    state=present
+    line='* soft stack 10240'
+  tags: ulimit
+
+- name:
+  copy: dest=/etc/security/limits.d/90-nproc.conf src="90-nproc.conf"
+  tags: ulimit

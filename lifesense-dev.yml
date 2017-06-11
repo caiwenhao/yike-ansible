@@ -1,0 +1,21 @@
+---
+- name: k8s_master
+  hosts: 192.168.30.243
+  gather_facts: True
+  vars_files:
+    - vars/lifesense-dev.yml
+    - roles/k8s-config/vars/main.yml
+  roles:
+    - { role: k8s-config, soa_info: "{{soa_env}}"}
+
+- name: k8s_node
+  hosts: k8s_node
+  gather_facts: True
+  vars_files:
+    - vars/lifesense-dev.yml
+    - roles/k8s-config/vars/main.yml
+  roles:
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.sprots}}",soa_info: "{{soa_env}}",nginx_type: rest,enable_upstream: true }
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.health}}",soa_info: "{{soa_env}}",nginx_type: rest,enable_upstream: true }
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.static}}",nginx_type: static }
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.websocket}}",soa_info: "{{soa_env}}",nginx_type: websocket2 }

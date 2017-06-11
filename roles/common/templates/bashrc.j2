@@ -1,0 +1,11 @@
+# .bashrc
+
+# User specific aliases and functions
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+export PS1='[\u@{{PS1}}_{{ansible_default_ipv4.address}}_{{ssh_port}}_{{NUM}} \W]$ '
+export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin:/usr/local/bin

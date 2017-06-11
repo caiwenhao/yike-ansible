@@ -1,0 +1,5 @@
+# chattr +i /etc/passwd
+# chattr +i /etc/inittab
+# chattr +i /etc/group
+# chattr +i /etc/shadow
+# chattr +i /etc/gshadow

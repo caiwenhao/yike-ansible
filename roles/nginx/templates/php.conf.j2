@@ -1,0 +1,46 @@
+server {
+    listen          80 ;
+    server_name     {{site.domain}}{{domain_lx}} ;
+    charset         utf-8;
+    index index.html index.htm index.jsp;
+    root {{site.root}};
+    access_log      /data/logs/nginx/{{site.domain}}_access.log access;
+    {% if site.static == "True" %}
+
+    location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|ico)$ {
+       expires      1d;
+    }
+
+    location ~ .*\.(js|css)$ {
+       expires      10h;
+    }
+    {% endif %}
+
+    location = /lxwd_logo.png {
+        expires      off;
+    }
+
+    location = /favicon.ico {
+        expires      7d;
+    }
+
+    location ~ .*\.php$
+    {
+        proxy_set_header   Host             $host;
+        proxy_set_header   X-Real-IP        $remote_addr;
+        proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+
+        proxy_connect_timeout 10;
+        proxy_send_timeout 5;
+        proxy_read_timeout 8;
+        proxy_buffer_size 4k;
+        proxy_buffers 4 32k;
+        proxy_busy_buffers_size 64k;
+        proxy_temp_file_write_size 64k;
+        proxy_temp_path  /dev/shm;
+
+        include fastcgi.conf;
+        fastcgi_pass  127.0.0.1:9000 ;
+        fastcgi_index index.php;
+    }
+}

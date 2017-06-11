@@ -1,0 +1,89 @@
+zookeepers:
+    zk_version: "zookeeper-3.4.6"
+    cluster:
+      - ID: 1
+        IP: "10.11.8.146"
+        HOST: "10.11.8.146"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+      - ID: 2
+        IP: "10.11.3.15"
+        HOST: "10.11.3.15"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+      - ID: 3
+        IP: "10.11.2.180"
+        HOST: "10.11.2.180"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+
+kafka:
+    kafka_version: "kafka_2.11-0.9.0.0"
+    zookeeper: "10.11.8.146:2181,10.11.3.15:2181,10.11.2.180:2181"
+    cluster:
+      - ID: 1
+        IP: "10.11.8.146"
+        Port: 9091
+      - ID: 2
+        IP: "10.11.3.15"
+        Port: 9091
+      - ID: 3
+        IP: "10.11.2.180"
+        Port: 9091
+
+soa_env:
+    project_env: "lifesense-en"
+    tingyun: "false"
+    log_level: "debug"
+
+
+sites:
+  disconf:
+    domain: "en.disconf"
+    root: "/data/web/webapps/disconf"
+    type: "tomcat"
+    tomcat_root: "/data/web/webapps"
+    timeout: 60
+    ignore_client: "on"
+    static: "False"
+    nginx:
+      - ip: '192.168.2.10'
+        port: 8080
+      - ip: '192.168.2.10'
+        port: 8080
+
+  lifesense_en:
+    domain: "lifesense-en"
+    root: "/data/web/webapps/"
+    timeout: 60
+    ignore_client: "on"
+    static: "False"
+  websocket_en:
+    domain: "websocket-en"
+    root: "/data/web/webapps/"
+    timeout: 60
+    ignore_client: "on"
+    static: "False"
+    nginx:
+      - ip: '10.10.236.250'
+  static_en:
+    domain: "static-en"
+    root: "/data/web/webapps/static-en"
+    timeout: 180
+    ignore_client: "on"
+    static: "False"
+  international:
+    domain: "international"
+    root: "/data/web/webapps/"
+    timeout: 60
+    ignore_client: "on"
+    static: "False"
+  yw_en:
+    domain: "yw-en"
+    root: "/data/web/webapps/"
+    timeout: 60
+    ignore_client: "on"
+    static: "False"

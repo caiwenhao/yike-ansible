@@ -1,0 +1,10 @@
+---
+
+- name: health_zk
+  hosts: health_zk
+  gather_facts: True
+  vars_files:
+    - vars/lifesense-qa2.yml
+  roles:
+    - { role: zookeeper,zk: "{{zookeepers.health_qa}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+    - { role: kafka,kf: "{{kafka.health_qa}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }

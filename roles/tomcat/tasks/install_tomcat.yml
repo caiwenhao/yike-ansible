@@ -1,0 +1,107 @@
+---
+
+- name:
+  group: name=www state=present
+  tags: tomcat
+
+- name:
+  user: name=www state=present comment=www group=www shell=/sbin/nologin
+  tags: tomcat
+
+- name:
+  file: path=/data/apps/tomcat{{item.port}} state=directory
+  with_items: "{{upstream}}"
+  when: item.enbale
+  tags: tomcat
+
+- name:
+  get_url: url={{file_server}}/tomcat-7.0.63.tar.bz2 dest=/dist/src/tomcat-7.0.63.tar.bz2
+  tags: tomcat
+
+- name:
+  unarchive: src=/dist/src/tomcat-7.0.63.tar.bz2 dest=/data/apps/tomcat{{item.port}} group=root owner=root creates=/data/apps/tomcat{{item.port}}/bin/jsvc copy=no
+  with_items: "{{upstream}}"
+  when: item.enbale
+  tags: tomcat
+
+- name:
+  copy: src="daemon.sh" dest=/data/apps/tomcat{{item.port}}/bin/daemon.sh mode=755
+  with_items: "{{upstream}}"
+  when: item.enbale
+  tags: tomcat
+
+- name:
+  file: path=/data/apps/tomcat{{item.port}}/init.d/tomcat state=link src=/data/apps/tomcat{{item.port}}/bin/daemon.sh mode=775 force=yes
+  with_items: "{{upstream}}"
+  when: item.enbale
+  tags: tomcat
+
+- name:
+  file: path=/etc/init.d/tomcat{{item.port}} state=link src=/data/apps/tomcat{{item.port}}/init.d/tomcat mode=775
+  with_items: "{{upstream}}"
+  when: item.enbale
+  tags: tomcat
+
+- name:
+  template: src=server.xml.j2 dest=/data/apps/tomcat{{item.port}}/conf/server.xml owner=www group=www
+  with_items: "{{upstream}}"
+  when: item.enbale
+  tags: tomcat
+
+- name:
+  copy: src=context.xml dest=/data/apps/tomcat{{item.port}}/conf/context.xml owner=www group=www
+  with_items: "{{upstream}}"
+  when: item.enbale
+  tags: tomcat
+
+- name:
+  template: dest=/data/apps/tomcat{{item.port}}/bin/setenv.sh src="setenv.sh"
+  with_items: "{{upstream}}"
+  when: item.enbale
+  tags: tomcat
+
+- name:
+  file: path=/data/apps/tomcat{{item.port}}/conf state=directory owner=www group=www recurse=yes
+  with_items: "{{upstream}}"
+  when: item.enbale
+  tags: tomcat
+
+- name:
+  file: path=/data/apps/tomcat{{item.port}}/temp state=directory owner=www group=www recurse=yes
+  with_items: "{{upstream}}"
+  when: item.enbale
+  tags: tomcat
+
+- name:
+  file: path=/data/apps/tomcat{{item.port}}/work state=directory owner=www group=www recurse=yes
+  with_items: "{{upstream}}"
+  when: item.enbale
+  tags: tomcat
+
+- name:
+  file: path=/data/logs/tomcat/tomcat{{item.port}} state=directory owner=www group=www recurse=yes
+  with_items: "{{upstream}}"
+  when: item.enbale
+  tags: tomcat
+
+- name:
+  file: path=/data/logs state=directory owner=www group=www recurse=yes
+  with_items: "{{upstream}}"
+  when: item.enbale
+  tags: tomcat
+
+- name:
+  file: path=/data/web/webapps state=directory owner=www group=www recurse=yes
+  tags: tomcat
+
+- name:
+  file: path=/data/apps/tomcat{{item.port}}/logs src=/data/logs/tomcat/tomcat{{item.port}} state=link owner=www group=www force=yes
+  with_items: "{{upstream}}"
+  when: item.enbale
+  tags: tomcat
+
+- name:
+  service: name=tomcat{{item.port}} state=running enabled=yes pattern=tomcat{{item.port}}
+  with_items: "{{upstream}}"
+  when: item.enbale
+  tags: tomcat

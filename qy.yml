@@ -1,0 +1,11 @@
+---
+
+- name: qy_b
+  hosts: qy_b
+  gather_facts: True
+  vars_files:
+    - vars/qy.yml
+  roles:
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.static}}",nginx_type: static }
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.www}}",nginx_type: thinkphp }
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.bbs}}",nginx_type: php }

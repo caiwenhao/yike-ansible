@@ -1,0 +1,36 @@
+---
+
+- name:
+  template: src={{nginx_type}}.conf.j2 dest=/data/apps/nginx/conf/vhost/{{site.domain}}{{domain_lx}}.conf
+  notify:
+    - reload nginx
+  when: enbale_vhost
+  tags: vhost
+
+- name:
+  file: path={{ item }} state=directory group=www owner=www recurse=yes
+  with_items:
+    - "{{site.root}}"
+    - "{{site.root}}/wechat"
+  when: enbale_vhost
+  tags: vhost
+
+- name:
+  copy: dest={{site.root}}/lxwd_logo.png src="lxwd_logo.png" owner='www' group='www'
+  when: enbale_vhost
+  tags: vhost
+
+- name:
+  copy: dest={{site.root}}/favicon.ico src="lxwd_logo.png" owner='www' group='www'
+  when: enbale_vhost
+  tags: vhost
+
+- name:
+  copy: dest={{site.root}}/wechat/MP_verify_WZzP06EfAt5aFEZu.txt src="MP_verify_WZzP06EfAt5aFEZu.txt" owner='www' group='www'
+  when: enbale_vhost
+  tags: vhost
+
+- name:
+  file: path=/data/apps/nginx/conf/vhost/{{site.domain}}{{domain_lx}}.conf state=absent
+  when: not enbale_vhost
+  tags: vhost

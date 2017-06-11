@@ -1,0 +1,29 @@
+---
+
+- name: all
+  hosts: 192.168.12.2
+  gather_facts: True
+  vars_files:
+    - vars/yw.yml
+  roles:
+    - { role: tomcat,site: "{{sites.pinpoint}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.pinpoint}}",nginx_type: app  }
+    - { role: tomcat,site: "{{sites.pinpointcollector}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+
+
+- name: docker
+  hosts: docker
+  gather_facts: True
+  vars_files:
+    - vars/yw.yml
+  roles:
+    - { role: docker,docker_hub: "10.10.185.222" }
+
+- name: data_web
+  hosts: data_web
+  gather_facts: True
+  vars_files:
+    - vars/yw.yml
+  roles:
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.app_test}}",nginx_type: static }
+    - { role: rsync, env: "app-test" }

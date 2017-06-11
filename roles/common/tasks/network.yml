@@ -1,0 +1,27 @@
+---
+
+- name:
+  yum: name=* state=latest
+  tags: network
+
+- name:
+  lineinfile:
+    dest=/etc/sysconfig/network-scripts/ifcfg-eth0
+    state=present
+    regexp='^ONBOOT'
+    line="ONBOOT=yes"
+  tags: network
+
+- name:
+  yum: name={{ item }} state=present
+  with_items:
+   - nscd
+  tags: network
+
+- name:
+  service: name=network state=running enabled=yes
+  tags: network
+
+- name:
+  service: name=nscd state=running enabled=yes
+  tags: network

@@ -1,0 +1,21 @@
+zookeepers:
+    zk_version: "zookeeper-3.4.6"
+    cluster:
+      - ID: 1
+        IP: "10.10.59.8"
+        HOST: "10.10.59.8"
+        clientPort: 21811
+        exchangePort: 28871
+        votePort: 38871
+      - ID: 2
+        IP: "10.10.59.8"
+        HOST: "10.10.59.8"
+        clientPort: 21812
+        exchangePort: 28872
+        votePort: 38872
+      - ID: 3
+        IP: "10.10.59.8"
+        HOST: "10.10.59.8"
+        clientPort: 21813
+        exchangePort: 28873
+        votePort: 38873

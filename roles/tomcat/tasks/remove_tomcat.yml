@@ -1,0 +1,19 @@
+---
+
+- name:
+  service: name=tomcat{{item.port}} state=stopped enabled=no
+  with_items: "{{upstream}}"
+  when: not item.enbale
+  tags: tomcat
+
+- name:
+  file: path=/data/apps/tomcat{{item.port}} state=absent
+  with_items: "{{upstream}}"
+  when: not item.enbale
+  tags: tomcat
+
+- name:
+  file: path=/etc/init.d/tomcat{{item.port}} state=absent
+  with_items: "{{upstream}}"
+  when: not item.enbale
+  tags: tomcat

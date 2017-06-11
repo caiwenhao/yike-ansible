@@ -1,0 +1,35 @@
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+. ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+PATH=$PATH:$HOME/bin
+
+export PATH
+unset USERNAME
+
+#实时记录历史命令
+shopt -s histappend
+
+alias vi='vim'
+alias cp='cp -i'
+alias mv='mv -i'
+alias rz='rz -bey'
+alias grep='grep --colour=always'
+alias rm='''echo -e "\033[40;32;1m【运维温馨提示】\033[0m \033[40;31;1;5m请不要轻易运行危险命令！\033[0m \033[40;33;1m rm \033[0m "'''
+alias shutdown='''echo -e "\033[40;32;1m【运维温馨提示】\033[0m \033[40;31;1;5m请不要轻易运行危险命令！\033[0m \033[40;33;1m shutdown \033[0m"'''
+alias init='''echo -e "\033[40;32;1m【运维温馨提示】\033[0m \033[40;31;1;5m请不要轻易运行危险命令！\033[0m \033[40;33;1m init \033[0m"'''
+alias reboot='''echo -e "\033[40;32;1m【运维温馨提示】\033[0m \033[40;31;1;5m请不要轻易运行危险命令！\033[0m \033[40;33;1m reboot \033[0m"'''
+alias halt='''echo -e "\033[40;32;1m【运维温馨提示】\033[0m \033[40;31;1;5m请不要轻易运行危险命令！\033[0m \033[40;33;1m halt \033[0m"'''
+alias poweroff='''echo -e "\033[40;32;1m【运维温馨提示】\033[0m \033[40;31;1;5m请不要轻易运行危险命令！\033[0m \033[40;33;1m poweroff \033[0m"'''
+alias pkill='''echo -e "\033[40;32;1m【运维温馨提示】\033[0m \033[40;31;1;5m请不要轻易运行危险命令！\033[0m \033[40;33;1m pkill \033[0m"'''
+alias killall='''echo -e "\033[40;32;1m【运维温馨提示】\033[0m \033[40;31;1;5m请不要轻易运行危险命令！\033[0m \033[40;33;1m killall \033[0m"'''
+alias kill='''echo -e "\033[40;32;1m【运维温馨提示】\033[0m \033[40;31;1;5m请不要轻易运行危险命令！\033[0m \033[40;33;1m kill \033[0m"'''
+alias chgrp='chgrp --preserve-root'
+alias chown='chown --preserve-root'
+alias chmod='chmod --preserve-root'
+export MYSQL_PS1="\R:\m:\s\P>\_"

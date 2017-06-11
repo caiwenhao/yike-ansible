@@ -1,0 +1,71 @@
+zookeepers:
+  health_qa:
+    zk_version: "zookeeper-3.4.6"
+    cluster:
+      - ID: 1
+        IP: "10.9.74.210"
+        HOST: "10.9.74.210"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+      - ID: 2
+        IP: "10.9.80.242"
+        HOST: "10.9.80.242"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+      - ID: 3
+        IP: "10.9.72.100"
+        HOST: "10.9.72.100"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+
+kafka:
+  health_qa:
+    kafka_version: "kafka_2.11-0.9.0.0"
+    zookeeper: "10.9.74.210:2181,10.9.80.242:2181,10.9.72.100:2181"
+    cluster:
+      - ID: 1
+        IP: "10.9.74.210"
+        Port: 9091
+      - ID: 2
+        IP: "10.9.80.242"
+        Port: 9091
+      - ID: 3
+        IP: "10.9.72.100"
+        Port: 9091
+
+soa_env:
+  lifesense_qa2:
+    project_env: "lifesense-qa2"
+    tingyun: "false"
+    log_level: "debug"
+
+sites:
+  sprots_qa2:
+    domain: "sports-qa2"
+    root: "/data/web/webapps/"
+    timeout: 60
+    ignore_client: "on"
+    static: "False"
+  health_qa2:
+    domain: "health-qa2"
+    root: "/data/web/webapps/"
+    timeout: 60
+    ignore_client: "on"
+    static: "False"
+  websocket_qa2:
+    domain: "websocket-qa2"
+    root: "/data/web/webapps/"
+    timeout: 60
+    ignore_client: "on"
+    static: "False"
+    nginx:
+      - ip: '10.10.236.250'
+  static_qa2:
+    domain: "static-qa2"
+    root: "/data/web/webapps/static-qa2"
+    timeout: 180
+    ignore_client: "on"
+    static: "False"

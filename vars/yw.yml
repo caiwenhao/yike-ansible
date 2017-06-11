@@ -1,0 +1,49 @@
+sites:
+  pinpoint:
+    domain: "pinpoint.yw"
+    root: "/data/web/webapps/pinpoint/web/ROOT"
+    type: "tomcat"
+    tomcat_root: "/data/web/webapps/pinpoint/web"
+    timeout: 60
+    ignore_client: "on"
+    static: "False"
+    nginx:
+      - ip: '10.10.231.39'
+        port: 8080
+      - ip: '10.10.231.39'
+        port: 8080
+    upstream:
+      - ip: "{{ansible_default_ipv4.address}}"
+        port: 8080
+        enbale: true
+        jxm_port1: 12340
+        jxm_port2: 12341
+        shutdown_port: 8000
+
+  pinpointcollector:
+    domain: "pinpoint.yw"
+    root: "/data/web/webapps/pinpoint/collector/ROOT"
+    type: "tomcat"
+    tomcat_root: "/data/web/webapps/pinpoint/collector"
+    timeout: 60
+    ignore_client: "on"
+    static: "False"
+    nginx:
+      - ip: '10.10.231.39'
+        port: 8080
+      - ip: '10.10.231.39'
+        port: 8080
+    upstream:
+      - ip: "{{ansible_default_ipv4.address}}"
+        port: 8081
+        enbale: true
+        jxm_port1: 12342
+        jxm_port2: 12343
+        shutdown_port: 8001
+
+  app_test:
+    domain: "app-test"
+    root: "/data/web/webapps/static-app-test"
+    timeout: 180
+    ignore_client: "on"
+    static: "False"

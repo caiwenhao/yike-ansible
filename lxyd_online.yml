@@ -1,0 +1,27 @@
+---
+
+- name: nginx_node
+  hosts: online_k8s_node
+  gather_facts: True
+  vars_files:
+    - vars/lxyd_online.yml
+  roles:
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.devicegateway}}",nginx_type: devicegateway-wd  }
+
+- name: proxy
+  hosts: online_proxy
+  gather_facts: True
+  vars_files:
+    - vars/lxyd_online.yml
+  roles:
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.static_sports}}",nginx_type: static }
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.sp}}",nginx_type: sp }
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.doctor}}",nginx_type: doctor }
+
+- name: ab
+  hosts: ab
+  gather_facts: True
+  vars_files:
+    - vars/lxyd_online.yml
+  roles:
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.static_sports}}",nginx_type: static }

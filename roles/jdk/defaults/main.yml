@@ -1,0 +1,5 @@
+---
+
+jdk:
+  jdk1.7.0_79: jdk-7u79-linux-x64.tar.gz
+  jdk-1.8.0: jdk-1.8.0.tar.gz

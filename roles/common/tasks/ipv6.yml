@@ -1,0 +1,32 @@
+---
+
+- name:
+  lineinfile:
+    dest=/etc/sysconfig/network
+    state=present
+    regexp='^NETWORKING_IPV6'
+    line='NETWORKING_IPV6=no'
+  tags: ipv6
+
+- name:
+  lineinfile:
+    dest=/etc/hosts
+    state=absent
+    regexp='localhost6.localdomain6'
+  tags: ipv6
+
+- name:
+  lineinfile:
+    dest=/etc/modprobe.d/ipv6off.conf
+    state=present
+    line='alias net-pf-10 off'
+    create=yes
+  tags: ipv6
+
+- name:
+  lineinfile:
+    dest=/etc/modprobe.d/ipv6off.conf
+    state=present
+    line='options ipv6 disable=1'
+    create=yes
+  tags: ipv6

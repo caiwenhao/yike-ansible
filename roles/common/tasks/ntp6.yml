@@ -1,0 +1,50 @@
+---
+
+- name:
+  yum: name={{ item }} state=present
+  with_items:
+   - ntp
+   - tzdata
+  tags: ntp6
+
+- name:
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+  notify:
+    - restart ntpd
+  tags: ntp6
+
+- name:
+  lineinfile:
+    dest=/etc/sysconfig/clock
+    state=present
+    regexp='^ZONE'
+    line='ZONE="Asia/Shanghai"'
+  tags: ntp6
+
+- name:
+  lineinfile:
+    dest=/etc/sysconfig/clock
+    state=present
+    insertafter="^ZONE"
+    line='UTC=false'
+  tags: ntp6
+
+- name:
+  lineinfile:
+    dest=/etc/sysconfig/clock
+    state=present
+    insertafter="^UTC"
+    line='ARC=false'
+  tags: ntp6
+
+- name: /etc/localtime
+  file:
+    src: "/usr/share/zoneinfo/Asia/Shanghai"
+    dest: /etc/localtime
+    state: link
+    force: yes
+  tags: ntp6
+
+- name:
+  service: name=ntpd state=running enabled=yes
+  tags: ntp6

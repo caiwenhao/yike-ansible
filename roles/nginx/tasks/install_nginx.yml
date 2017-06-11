@@ -1,0 +1,69 @@
+---
+
+- name:
+  group: name=www state=present
+  tags: nginx
+
+- name:
+  user: name=www state=present group=www shell=/sbin/nologin
+  tags: nginx
+
+- name:
+  file: path={{ item }} state=directory
+  with_items:
+    - /dist/src
+    - /data/apps
+  tags: nginx
+
+- name:
+  get_url: url={{file_server}}/tengine-2.1.0.tar.bz2 dest=/dist/src/tengine-2.1.0.tar.bz2
+  when: ansible_distribution_major_version == "6"
+  tags: nginx
+
+- name:
+  get_url: url={{file_server}}/tengine-2.1.0_centos7.tar.bz2 dest=/dist/src/tengine-2.1.0.tar.bz2
+  when: ansible_distribution_major_version == "7"
+  tags: nginx
+
+- name:
+  shell: tar xf /dist/src/tengine-2.1.0.tar.bz2 -C /data/apps/ creates=/data/apps/nginx/sbin/nginx
+  tags: nginx
+
+- name:
+  file: path=/etc/init.d/nginx state=link src=/data/apps/nginx/init.d/nginx mode=775 force=yes
+  tags: nginx
+
+
+- name:
+  file: path={{ item }} state=directory group=www owner=www recurse=yes
+  with_items:
+    - /data/logs/nginx
+    - /data/apps/nginx/client_body_temp
+    - /data/apps/nginx/fastcgi_temp
+    - /data/apps/nginx/proxy_temp
+    - /data/apps/nginx/scgi_temp
+    - /data/apps/nginx/uwsgi_temp
+    - /data/apps/nginx/conf/SSL
+  tags: nginx
+
+- name:
+  copy: dest="/data/apps/nginx/conf/SSL/server.key" src="server.key" owner='www' group='www'
+  tags: nginx
+
+- name:
+  copy: dest="/data/apps/nginx/conf/SSL/server.pem" src="server.pem" owner='www' group='www'
+  tags: nginx
+
+- name:
+  copy: dest="/etc/logrotate.d/nginx" src="nginx" owner='root' group='root'
+  tags: nginx
+
+- name:
+  template: src=nginx.conf.j2 dest=/data/apps/nginx/conf/nginx.conf
+  notify:
+    - reload nginx
+  tags: nginx
+
+- name:
+  service: name=nginx state=running enabled=yes
+  tags: nginx

@@ -1,0 +1,33 @@
+---
+- name: restart ntpd
+  service: name=ntpd state=restarted
+  tags: ntp
+
+- name: setenforce 0
+  shell: setenforce 0|/bin/true
+  tags: selinux
+
+- name: reload sysctl
+  shell: /sbin/sysctl -p
+  ignore_errors: yes
+  tags: sysctl
+
+- name: update ldap
+  command: authconfig --enableldap --enableldapauth --enablemkhomedir --enableforcelegacy --disablesssd --disablesssdauth --ldapserver={{ldap_server}} --ldapbasedn="dc=lifesense,dc=org" --update
+  tags: ldap
+
+- name: reload sshd
+  service: name=sshd state=reloaded
+  tags: sshd
+
+- name: restart network
+  service: name=network state=restarted
+  tags: network
+
+- name: modprobe bridge
+  command: modprobe bridge
+  tags: syscrl
+
+- name: init q
+  shell: /sbin/init q
+  tags: tty

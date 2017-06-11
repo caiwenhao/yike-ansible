@@ -1,0 +1,87 @@
+---
+
+- name: h5
+  hosts: h5
+  gather_facts: True
+  vars_files:
+    - vars/sites.yml
+  roles:
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.wx}}" }
+    - { role: tomcat,site: "{{sites.wx}}",jdk_version: jdk1.7.0_79,jdk_tar: jdk-7u79-linux-x64.tar.gz }
+
+- name: s5
+  hosts: s5:s5_new
+  gather_facts: True
+  vars_files:
+    - vars/sites.yml
+  roles:
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.wxs1}}" }
+    - { role: tomcat,site: "{{sites.wxs1}}",jdk_version: jdk1.7.0_79,jdk_tar: jdk-7u79-linux-x64.tar.gz }
+
+- name: task
+  hosts: task
+  gather_facts: True
+  vars_files:
+    - vars/sites.yml
+  roles:
+    - { role: tomcat,site: "{{sites.task}}",jdk_version: jdk1.7.0_79,jdk_tar: jdk-7u79-linux-x64.tar.gz }
+
+- name: app
+  hosts: app
+  gather_facts: True
+  vars_files:
+    - vars/sites.yml
+  roles:
+    - common
+    - zabbix
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.lswdapp}}" }
+    - { role: tomcat,site: "{{sites.lswdapp}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+
+- name: personal
+  hosts: 10.10.112.241
+  gather_facts: True
+  vars_files:
+    - vars/sites.yml
+  roles:
+    - common
+    - zabbix
+    - { role: jetty,site: "{{sites.personal}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+
+- name: openapi
+  hosts: openapi
+  gather_facts: True
+  vars_files:
+    - vars/sites.yml
+  roles:
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.openapi}}" }
+    - { role: tomcat,site: "{{sites.openapi}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+
+- name: ck
+  hosts: ck
+  gather_facts: True
+  vars_files:
+    - vars/sites.yml
+  roles:
+    - { role: jetty,site: "{{sites.ck}}",jdk_version: jdk1.7.0_79,jdk_tar: jdk-7u79-linux-x64.tar.gz }
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.ck}}" }
+    - { role: jetty,site: "{{sites.weidong}}",jdk_version: jdk1.7.0_79,jdk_tar: jdk-7u79-linux-x64.tar.gz }
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.weidong}}" }
+    - { role: jetty,site: "{{sites.personal}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.personal}}",domain_lx: ""}
+
+
+- name: kafka
+  hosts: 10.10.148.178
+  gather_facts: True
+  vars_files:
+    - vars/sites.yml
+  roles:
+    - { role: zookeeper,zk: "{{zookeepers.lxyd_qa}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+
+- name: hl
+  hosts: 10.10.35.22
+  gather_facts: True
+  vars_files:
+    - vars/sites.yml
+  roles:
+    - { role: jetty,site: "{{sites.healthcenter}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }

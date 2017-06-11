@@ -1,0 +1,11 @@
+/data/logs/nginx/*.log {
+daily
+rotate 30
+sharedscripts
+dateext
+postrotate
+    if [ -f /data/logs/nginx/nginx.pid ]; then
+        kill -USR1 `cat /data/logs/nginx/nginx.pid`
+    fi
+endscript
+}

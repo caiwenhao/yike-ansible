@@ -1,0 +1,48 @@
+zookeepers:
+  lxyd_local:
+    zk_version: "zookeeper-3.4.6"
+    cluster:
+      - ID: 1
+        IP: "192.168.30.183"
+        HOST: "lx_local_zk_192.168.30.183_22_A"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+      - ID: 2
+        IP: "192.168.30.183"
+        HOST: "lx_local_zk_192.168.30.183_22_A"
+        clientPort: 2182
+        exchangePort: 2888
+        votePort: 3888
+      - ID: 3
+        IP: "192.168.30.183"
+        HOST: "lx_local_zk_192.168.30.183_22_A"
+        clientPort: 2183
+        exchangePort: 2889
+        votePort: 3889
+
+kafka:
+  lxyd_local:
+    kafka_version: "kafka_2.11-0.9.0.0"
+    zookeeper: "192.168.30.183:2181,192.168.30.183:2182,192.168.30.183:2183"
+    cluster:
+      - ID: 1
+        IP: "192.168.30.184"
+        Port: 9091
+      - ID: 2
+        IP: "192.168.30.184"
+        Port: 9092
+      - ID: 3
+        IP: "192.168.30.184"
+        Port: 9093
+
+sites:
+  disconf:
+    domain: "dev.disconf"
+    root: "/data/web/disconf"
+    timeout: 60
+    ignore_client: "on"
+    static: "False"
+    nginx:
+      - ip: '192.168.30.194'
+        port: 8081

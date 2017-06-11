@@ -1,0 +1,26 @@
+---
+
+- name:
+  yum: name={{ item }} state=present
+  with_items:
+   - rsync
+  tags: rsync
+
+#配置
+- name:
+  copy: src="rsyncd.secrets" dest=/etc/rsyncd.secrets mode=500
+  tags: rsync
+
+- name:
+  template: src=rsyncd.conf dest=/etc/rsyncd.conf
+  tags: rsync
+
+- name:
+  template: src=rsyncd.motd dest=/etc/rsyncd.motd
+  tags: rsync
+
+- name:
+  service: name=rsyncd state=running enabled=yes
+  tags: rsync
+
+

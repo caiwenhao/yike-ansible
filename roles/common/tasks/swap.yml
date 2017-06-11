@@ -1,0 +1,26 @@
+---
+- name:
+  file: dest=/data/swap state=directory
+  tags: swap
+
+- name:
+#  shell: fallocate -l {{ swapfile_size }} {{ swapfile_path }} creates={{ swapfile_path }}
+  shell: dd if=/dev/zero of={{ swapfile_path }} bs=1MB count={{ swapfile_size }} creates={{ swapfile_path }}
+  tags: swap
+
+- name:
+  shell: mkswap {{ swapfile_path }};swapon {{ swapfile_path }} warn=no
+  ignore_errors: yes
+  tags: swap
+
+- name:
+  file: path={{ swapfile_path }} mode=600
+  tags: swap
+
+- name:
+  lineinfile:
+    dest=/etc/rc.local
+    state=present
+    regexp='^swapon'
+    line='swapon {{ swapfile_path }}'
+  tags: swap

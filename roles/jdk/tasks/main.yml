@@ -1,0 +1,35 @@
+---
+
+- name:
+  group: name=www state=present
+  tags: jdk
+
+- name:
+  user: name=www state=present comment=www group=www shell=/sbin/nologin
+  tags: jdk
+
+- name:
+  get_url: url={{file_server}}/{{jdk_tar}} dest=/dist/src/{{jdk_tar}}
+  tags: jdk
+
+- name:
+  file: path=/data/apps/deps/ state=directory
+  tags: jdk
+
+- name:
+  unarchive: src=/dist/src/{{jdk_tar}} dest=/data/apps/deps/ group=www owner=www creates=/data/apps/deps/{{jdk_version}}/bin/java copy=no
+  tags: jdk
+
+- name:
+  copy:  src="msyhbd.ttf" dest=/data/apps/deps/{{jdk_version}}/jre/lib/fonts/msyhbd.ttf
+  tags: jdk
+
+- name:
+  copy:  src="msyh.ttf" dest=/data/apps/deps/{{jdk_version}}/jre/lib/fonts/msyh.ttf
+  tags: jdk
+
+- name:
+  file:  path=/data/apps/deps/{{jdk_version}} state=directory group=www owner=www recurse=yes
+  tags: jdk
+
+

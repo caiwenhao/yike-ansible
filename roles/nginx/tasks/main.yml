@@ -1,0 +1,12 @@
+---
+
+- include: install_nginx.yml
+  when: enbale_nginx
+  tags: nginx
+
+- include: remove_nginx.yml
+  when: not enbale_nginx
+  tags: nginx
+
+- include: vhost.yml
+  tags: vhost

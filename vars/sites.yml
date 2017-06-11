@@ -1,0 +1,241 @@
+---
+
+sites:
+  healthcenter:
+    domain: "healthcenter"
+    root: "/data/web/webapps/healthcenter"
+    app: "healthcenter"
+    type: "jetty"
+    timeout: 60
+    ignore_client: "on"
+    static: "True"
+    upstream:
+      - ip: "{{ansible_default_ipv4.address}}"
+        port: 7080
+        enbale: true
+        jxm_port1: 12240
+        shutdown_port: 7000
+  wx:
+    domain: "wx"
+    root: "/data/web/webapps"
+    type: "tomcat"
+    timeout: 60
+    ignore_client: "on"
+    static: "True"
+    apm: 8080
+    tomcat_root: "/data/web/webapps"
+    upstream:
+      - ip: "{{ansible_default_ipv4.address}}"
+        port: 8080
+        enbale: true
+        jxm_port1: 12340
+        jxm_port2: 12341
+        shutdown_port: 8000
+
+  task:
+    domain: "task"
+    root: "/data/web/webapps"
+    type: "tomcat"
+    timeout: 60
+    ignore_client: "on"
+    static: "True"
+    upstream:
+      - ip: "{{ansible_default_ipv4.address}}"
+        port: 8080
+        enbale: true
+        jxm_port1: 12340
+        jxm_port2: 12341
+        shutdown_port: 8000
+      - ip: "{{ansible_default_ipv4.address}}"
+        port: 8081
+        enbale: true
+        jxm_port1: 12342
+        jxm_port2: 12343
+        shutdown_port: 8001
+
+  ck:
+    domain: "kband"
+    root: "/data/web/webapps/kband"
+    app: "lifesense-healthcenter"
+    type: "jetty"
+    timeout: 60
+    ignore_client: "on"
+    static: "True"
+    upstream:
+      - ip: "{{ansible_default_ipv4.address}}"
+        port: 7080
+        enbale: true
+        jxm_port1: 12240
+        shutdown_port: 7000
+
+  weidong:
+    domain: "weidong"
+    root: "/data/web/webapps/weidong"
+    app: "admin-weidong"
+    type: "jetty"
+    timeout: 60
+    ignore_client: "on"
+    static: "True"
+    upstream:
+      - ip: "{{ansible_default_ipv4.address}}"
+        port: 7081
+        enbale: true
+        jxm_port1: 12241
+        shutdown_port: 7001
+
+  personal:
+    domain: "180.150.188.107"
+    root: "/data/web/webapps/personal"
+    app: "healthcenter-personal"
+    type: "jetty"
+    timeout: 60
+    ignore_client: "on"
+    static: "True"
+    upstream:
+      - ip: "{{ansible_default_ipv4.address}}"
+        port: 7082
+        enbale: true
+        jxm_port1: 12242
+        shutdown_port: 7002
+
+  wxs1:
+    domain: "wxs1"
+    root: "/data/web/webapps"
+    type: "tomcat"
+    timeout: 60
+    ignore_client: "on"
+    static: "True"
+    apm: 8080
+    upstream:
+      - ip: "{{ansible_default_ipv4.address}}"
+        port: 8080
+        enbale: true
+        jxm_port1: 12340
+        jxm_port2: 12341
+        shutdown_port: 8000
+      - ip: "{{ansible_default_ipv4.address}}"
+        port: 8081
+        enbale: true
+        jxm_port1: 12342
+        jxm_port2: 12343
+        shutdown_port: 8001
+
+  lswdapp:
+    domain: "lswdapp"
+    root: "/data/web/webapps"
+    type: "tomcat"
+    timeout: 60
+    ignore_client: "on"
+    static: "False"
+    upstream:
+      - ip: "{{ansible_default_ipv4.address}}"
+        port: 8080
+        enbale: true
+        jxm_port1: 12340
+        jxm_port2: 12341
+        shutdown_port: 8000
+      - ip: "{{ansible_default_ipv4.address}}"
+        port: 8081
+        enbale: true
+        jxm_port1: 12342
+        jxm_port2: 12343
+        shutdown_port: 8001
+
+  gztest_h5:
+    domain: "gztest-h5"
+    root: "/data/web/webapps/h5"
+    type: "tomcat"
+    timeout: 60
+    ignore_client: "on"
+    static: "True"
+    upstream:
+      - ip: "{{ansible_default_ipv4.address}}"
+        port: 8080
+        enbale: true
+        jxm_port1: 12340
+        jxm_port2: 12341
+        shutdown_port: 8000
+
+  gztest_s5:
+    domain: "gztest-s5"
+    root: "/data/web/webapps/s5"
+    type: "tomcat"
+    timeout: 60
+    ignore_client: "on"
+    static: "True"
+    upstream:
+      - ip: "{{ansible_default_ipv4.address}}"
+        port: 8081
+        enbale: true
+        jxm_port1: 12342
+        jxm_port2: 12343
+        shutdown_port: 8001
+
+  gztest_task:
+    domain: "gztest_task"
+    root: "/data/web/webapps/task"
+    type: "tomcat"
+    timeout: 60
+    ignore_client: "off"
+    static: "True"
+    upstream:
+      - ip: "{{ansible_default_ipv4.address}}"
+        port: 8082
+        enbale: true
+        jxm_port1: 12344
+        jxm_port2: 12345
+        shutdown_port: 8002
+
+  gztest_weidong:
+    domain: "gztest_weidong"
+    root: "/data/web/webapps/weidong"
+    type: "tomcat"
+    timeout: 60
+    ignore_client: "off"
+    static: "True"
+    upstream:
+      - ip: "{{ansible_default_ipv4.address}}"
+        port: 8084
+        enbale: true
+        jxm_port1: 12346
+        jxm_port2: 12347
+        shutdown_port: 8004
+
+  openapi:
+    domain: "openapi"
+    root: "/data/web/webapps/openapi"
+    type: "tomcat"
+    timeout: 60
+    ignore_client: "off"
+    static: "True"
+    upstream:
+      - ip: "{{ansible_default_ipv4.address}}"
+        port: 8080
+        enbale: true
+        jxm_port1: 12340
+        jxm_port2: 12341
+        shutdown_port: 8000
+
+zookeepers:
+  lxyd_qa:
+    zk_version: "zookeeper-3.4.6"
+    cluster:
+      - ID: 1
+        IP: "10.10.148.178"
+        HOST: "lx_lswd_openapi_10.10.148.178_22_A"
+        clientPort: 2181
+        exchangePort: 2887
+        votePort: 3887
+      - ID: 2
+        IP: "10.10.148.178"
+        HOST: "lx_lswd_openapi_10.10.148.178_22_A"
+        clientPort: 2182
+        exchangePort: 2888
+        votePort: 3888
+      - ID: 3
+        IP: "10.10.148.178"
+        HOST: "lx_lswd_openapi_10.10.148.178_22_A"
+        clientPort: 2183
+        exchangePort: 2889
+        votePort: 3889
+

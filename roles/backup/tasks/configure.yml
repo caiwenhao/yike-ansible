@@ -1,0 +1,21 @@
+---
+
+- name: Create backup config directory
+  file: path="/data/Backup/" state=directory
+
+- name: Create backup models directory
+  file: path="/data/Backup/models" state=directory
+
+- name: Create backup schedule directory
+  file: path="/data/Backup/config" state=directory
+
+- name: Write backup config file
+  template: src=config.rb.j2 dest="/data/Backup/config.rb"
+
+- name: Write backup models file
+  template: src=models/temp.rb.j2 dest="/data/Backup/models/{{backupname}}_lifesense_com.rb"
+  tags: configure
+
+- name: Write backup config file
+  template: src=schedule.rb.j2 dest="/data/Backup/config/schedule.rb"
+  tags: configure

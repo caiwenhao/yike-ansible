@@ -1,0 +1,6 @@
+---
+
+- name:
+  hosts: 10.10.157.234,10.9.119.59
+  roles:
+    - { role: rsync, env: "bakcup" }

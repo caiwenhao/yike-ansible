@@ -1,0 +1,42 @@
+---
+
+- name: local_zk
+  hosts: local_zk
+  gather_facts: True
+  vars_files:
+    - vars/lxyd_local.yml
+  roles:
+    - { role: zookeeper,zk: "{{zookeepers.lxyd_local}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+
+- name: test_zk
+  hosts: 10.10.59.8
+  gather_facts: True
+  vars_files:
+    - vars/lifesense-test.yml
+  roles:
+    - { role: zookeeper,zk: "{{zookeepers}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+
+
+- name: local_kafka
+  hosts: local_kafka
+  gather_facts: True
+  vars_files:
+    - vars/lxyd_local.yml
+  roles:
+    - { role: kafka,kf: "{{kafka.lxyd_local}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+
+- name: local_redis
+  hosts: local_redis
+  gather_facts: True
+  vars_files:
+    - vars/lxyd_local.yml
+  roles:
+    - { role: redis,redis_version: redis-2.8.23}
+
+- name: local_disconf
+  hosts: local_disconf
+  gather_facts: True
+  vars_files:
+    - vars/lxyd_local.yml
+  roles:
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.disconf}}",nginx_type: disconf  }

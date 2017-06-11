@@ -1,0 +1,22 @@
+---
+
+- name:
+  lineinfile:
+    dest=/etc/rc.local
+    state=present
+    line='modprobe bridge'
+  notify: modprobe bridge
+  tags: sysctl
+
+- name:
+  template: src=sysctl.conf.j2 dest=/etc/sysctl.conf
+  notify: reload sysctl
+  tags: sysctl
+
+- name:
+  lineinfile: dest=/etc/sysctl.conf regexp='^net.ipv4.ip_forward=' line='net.ipv4.ip_forward=1' state=present
+  with_items:
+   - '"k8s" in PS1'
+   - '"docker" in PS1'
+  tags: sysctl
+

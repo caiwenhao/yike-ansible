@@ -1,0 +1,19 @@
+sites:
+  static:
+    domain: "static"
+    root: "/data/lifesense/www"
+    timeout: 180
+    ignore_client: "on"
+    static: "False"
+  www:
+    domain: "www"
+    root: "/data/lifesense/www"
+    timeout: 60
+    ignore_client: "on"
+    static: "True"
+  bbs:
+    domain: "bbs"
+    root: "/data/lifesense/bbs"
+    timeout: 60
+    ignore_client: "on"
+    static: "True"

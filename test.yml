@@ -1,0 +1,18 @@
+---
+
+- name: test_zk
+  hosts: 10.10.217.109
+  gather_facts: True
+  vars_files:
+    - vars/lifesense-test.yml
+  roles:
+    - { role: zookeeper,zk: "{{zookeepers}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+    - { role: redis,redis_version: redis-2.8.23}
+
+- name: test_dubbo
+  hosts: 10.10.240.222
+  gather_facts: True
+  vars_files:
+    - vars/sites.yml
+  roles:
+    - { role: tomcat,site: "{{sites.wx}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }

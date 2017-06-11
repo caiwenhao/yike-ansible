@@ -1,0 +1,474 @@
+upstream sport_service {
+{% for up in site.nginx %}
+        server {{up.ip}}:18080;
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+    }
+upstream weight_service {
+{% for up in site.nginx %}
+        server {{up.ip}}:18081;
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+    }
+upstream user_service {
+{% for up in site.nginx %}
+        server {{up.ip}}:18082;
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+    }
+upstream commons_rest {
+{% for up in site.nginx %}
+        server {{up.ip}}:18083;
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+    }
+upstream sleep_service {
+{% for up in site.nginx %}
+        server {{up.ip}}:18086;
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+    }
+
+upstream wechatgateway_service {
+{% for up in site.nginx %}
+        server {{up.ip}}:18084;
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+    }
+
+upstream message_service {
+{% for up in site.nginx %}
+        server {{up.ip}}:18085;
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+    }
+upstream heartrate_service {
+{% for up in site.nginx %}
+        server {{up.ip}}:18087;
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+    }
+
+upstream device_service {
+{% for up in site.nginx %}
+        server {{up.ip}}:18088;
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+    }
+upstream voice_service {
+{% for up in site.nginx %}
+        server {{up.ip}}:18090;
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+    }
+
+upstream enterprisegroup_service {
+{% for up in site.nginx %}
+        server {{up.ip}}:18091;
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+    }
+
+upstream personalgroup_service {
+{% for up in site.nginx %}
+        server {{up.ip}}:18092;
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+    }
+
+upstream websocket {
+{% for up in site.nginx %}
+        server {{up.ip}}:18093;
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+    }
+upstream devicesocket_service {
+{% for up in site.nginx %}
+        server {{up.ip}}:18095;
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+    }
+upstream lxyd_admin {
+{% for up in site.nginx %}
+        server {{up.ip}}:18097;
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+    }
+upstream migration_service {
+{% for up in site.nginx %}
+        server {{up.ip}}:18098;
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+    }
+
+upstream enterprisemanager_service {
+{% for up in site.nginx %}
+        server {{up.ip}}:18099;
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+    }
+upstream devicegateway_service {
+{% for up in site.nginx %}
+        server {{up.ip}}:18101;
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+    }
+upstream emergencycall_service {
+{% for up in site.nginx %}
+        server {{up.ip}}:18089;
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+    }
+
+upstream stat_services {
+{% for up in site.nginx %}
+        server {{up.ip}}:18102;
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+    }
+
+upstream sms_services {
+{% for up in site.nginx %}
+        server {{up.ip}}:18104;
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+    }
+
+upstream operators_services {
+{% for up in site.nginx %}
+        server {{up.ip}}:18105;
+{% endfor %}
+        least_conn;
+        keepalive 2560;
+    }
+
+server {
+    listen          80 ;
+    listen          443 ssl ;
+    server_name     {{site.domain}}{{domain_lx}};
+    ssl_certificate     SSL/server.pem;
+    ssl_certificate_key SSL/server.key;
+    charset         utf-8;
+    access_log      /data/logs/nginx/{{site.domain}}_access.log access;
+
+    location /sport_service {
+        chunked_transfer_encoding on;
+        rewrite /sport_service/(.*) /$1 break;
+        rewrite /sport_service$ / permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://sport_service;
+    }
+
+    location /weight_service {
+        chunked_transfer_encoding on;
+        rewrite /weight_service/(.*) /$1 break;
+        rewrite /weight_service$ / permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://weight_service;
+    }
+
+    location /user_service {
+        chunked_transfer_encoding on;
+        rewrite /user_service/(.*) /$1 break;
+        rewrite /user_service$ / permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://user_service;
+    }
+
+    location /commons_rest {
+        chunked_transfer_encoding on;
+        rewrite /commons_rest/(.*) /$1 break;
+        rewrite /commons_rest$ / permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://commons_rest;
+    }
+
+    location /sleep_service {
+        chunked_transfer_encoding on;
+        rewrite /sleep_service/(.*) /$1 break;
+        rewrite /sleep_service$ / permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://sleep_service;
+    }
+
+    location /wechatgateway_service {
+        chunked_transfer_encoding on;
+        rewrite /wechatgateway_service/(.*) /$1 break;
+        rewrite /wechatgateway_service$ / permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://wechatgateway_service;
+    }
+
+    location /message_service {
+        chunked_transfer_encoding on;
+        rewrite /message_service/(.*) /$1 break;
+        rewrite /message_service$ / permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://message_service;
+    }
+
+    location /heartrate_service {
+        chunked_transfer_encoding on;
+        rewrite /heartrate_service/(.*) /$1 break;
+        rewrite /heartrate_service$ / permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://heartrate_service;
+    }
+
+    location /device_service {
+        chunked_transfer_encoding on;
+        rewrite /device_service/(.*) /$1 break;
+        rewrite /device_service$ / permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://device_service;
+    }
+
+    location /enterprisegroup_service {
+        chunked_transfer_encoding on;
+        rewrite /enterprisegroup_service/(.*) /$1 break;
+        rewrite /enterprisegroup_service$ / permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://enterprisegroup_service;
+    }
+
+    location /personalgroup_service {
+        chunked_transfer_encoding on;
+        rewrite /personalgroup_service/(.*) /$1 break;
+        rewrite /personalgroup_service$ / permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://personalgroup_service;
+    }
+
+    location /sms {
+        chunked_transfer_encoding on;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass  https://sms.lifesense.com/sms;
+    }
+    location /wxapi {
+        chunked_transfer_encoding on;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass   https://api.weixin.qq.com/sns/oauth2/access_token;
+    }
+
+    location /websocket {
+        proxy_redirect    off;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_pass http://websocket;
+    }
+    location /devicesocket_service {
+       chunked_transfer_encoding on;
+       rewrite /devicesocket_service/(.*) /$1 break;
+       rewrite /devicesocket_service$ / permanent;
+       proxy_set_header Connection "";
+       proxy_http_version 1.1;
+       proxy_redirect off;
+       proxy_set_header Host $host;
+       proxy_set_header X-Real-IP $remote_addr;
+       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+       proxy_pass      http://devicesocket_service;
+    }
+
+    location /migration_service {
+        chunked_transfer_encoding on;
+        rewrite /migration_service/(.*) /$1 break;
+        rewrite /migration_service$ / permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://migration_service;
+    }
+
+    location /lxyd_admin {
+       chunked_transfer_encoding on;
+       rewrite /lxyd_admin/(.*) /$1 break;
+       rewrite /lxyd_admin$ / permanent;
+       proxy_set_header Connection "";
+       proxy_http_version 1.1;
+       proxy_redirect off;
+       proxy_set_header Host $host;
+       proxy_set_header X-Real-IP $remote_addr;
+       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+       proxy_pass      http://lxyd_admin;
+    }
+    location /enterprisemanager_service {
+        chunked_transfer_encoding on;
+        rewrite /enterprisemanager_service/(.*) /$1 break;
+        rewrite /enterprisemanager_service$ / permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        #proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://enterprisemanager_service;
+    }
+
+    location /devicegateway_service {
+        chunked_transfer_encoding on;
+        rewrite /devicegateway_service/(.*) /$1 break;
+        rewrite /devicegateway_service$ / permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://devicegateway_service;
+    }
+
+    location /voice_service {
+        chunked_transfer_encoding on;
+        rewrite /voice_service/(.*) /$1 break;
+        rewrite /voice_service$ / permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://voice_service;
+    }
+
+    location /emergencycall_service {
+        chunked_transfer_encoding on;
+        rewrite /emergencycall_service/(.*) /$1 break;
+        rewrite /emergencycall_service$ / permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://emergencycall_service;
+    }
+
+    location /stat_service {
+        chunked_transfer_encoding on;
+        rewrite /stat_service/(.*) /$1 break;
+        rewrite /stat_service$ / permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://stat_services;
+    }
+
+    location /sms_service {
+        chunked_transfer_encoding on;
+        rewrite /sms_service/(.*) /$1 break;
+        rewrite /sms_service$ / permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://sms_services;
+    }
+
+    location /operators_service {
+        chunked_transfer_encoding on;
+        rewrite /operators_service/(.*) /$1 break;
+        rewrite /operators_service$ / permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://operators_services;
+    }
+}

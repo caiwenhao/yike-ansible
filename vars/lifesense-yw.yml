@@ -1,0 +1,7 @@
+sites:
+  yw:
+    domain: "yw"
+    root: "/data/web/webapps/"
+    timeout: 60
+    ignore_client: "on"
+    static: "False"

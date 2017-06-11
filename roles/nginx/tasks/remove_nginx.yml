@@ -1,0 +1,13 @@
+---
+
+- name:
+  service: name=nginx state=stopped enabled=no
+  tags: nginx
+
+- name:
+  file: path=/data/apps/nginx state=absent
+  tags: nginx
+
+- name:
+  file: path=/etc/init.d/nginx state=absent
+  tags: nginx

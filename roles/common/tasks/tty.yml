@@ -1,0 +1,19 @@
+---
+
+- name:
+  lineinfile:
+    dest=/etc/init/start-ttys.conf
+    state=present
+    regexp='^env ACTIVE_CONSOLES'
+    line='env ACTIVE_CONSOLES=/dev/tty[1-2]'
+  notify:
+    - init q
+  tags: tty
+
+- name:
+  lineinfile:
+    dest=/etc/init/control-alt-delete.conf
+    state=present
+    regexp='^#?exec /sbin/shutdown'
+    line='#exec /sbin/shutdown -r now "Control-Alt-Delete pressed"'
+  tags: tty

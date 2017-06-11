@@ -1,0 +1,9 @@
+---
+
+- name: proxy
+  hosts: hk_proxy
+  gather_facts: True
+  vars_files:
+    - vars/lxyd_online.yml
+  roles:
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.sports}}",nginx_type: sports_proxy }

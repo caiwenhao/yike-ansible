@@ -1,0 +1,13 @@
+---
+
+- name:
+  yum:
+    name=libselinux-python
+    state=present
+  tags: selinux
+
+- name:
+  selinux: state=disabled
+  notify:
+    - setenforce 0
+  tags: selinux

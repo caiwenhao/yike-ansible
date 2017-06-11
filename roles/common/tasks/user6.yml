@@ -1,0 +1,85 @@
+---
+
+- name:
+  user: name={{ item }} state=absent
+  with_items:
+   - adm
+   - lp
+   - shutdown
+   - halt
+   - uucp
+   - operator
+   - games
+   - gopher
+  tags: user6
+
+- name:
+  group: name=www state=present
+  tags: user6
+
+- name:
+  user: name=www state=present group=www shell=/sbin/nologin
+  tags: user6
+
+
+- name:
+  user:
+    name: "{{ admin_user }}"
+    state: present
+    comment: "admin user"
+    password: "{{ admin_pass }}"
+    append: yes
+    groups: 'www'
+  tags: user6
+
+- name:
+  lineinfile: dest=/etc/sudoers state=present  line='{{item}}' validate='visudo -cf %s'
+  with_items:
+    - "{{ admin_user }} ALL=(ALL) NOPASSWD: ALL"
+    - "Defaults: {{ admin_user }}  !requiretty"
+  tags: user6
+
+- name:
+  file:
+    path: "/home/{{ admin_user }}/.ssh"
+    state: 'directory'
+    owner: "{{ admin_user }}"
+    group: "{{ admin_user }}"
+    mode: '0700'
+  tags: user6
+
+- name:
+  template:
+    dest: "/home/{{ admin_user }}/.ssh/authorized_keys"
+    src: "authorized_keys.j2"
+    owner: "{{ admin_user }}"
+    group: "{{ admin_user }}"
+    mode: '0500'
+  tags: user6
+
+- name:
+  file: path=/root/.ssh owner=root group=root mode=0700 state=directory
+  tags: user6
+
+- name:
+  template:
+    dest: "/root/.ssh/authorized_keys"
+    src: "authorized_keys.j2"
+    owner: root
+    group: root
+    mode: '0500'
+  tags: user6
+
+- name:
+  template: src=bashrc.j2 dest=/home/{{ admin_user }}/.bashrc
+  tags: user6
+
+- name:
+  user:
+    name: "root"
+    state: present
+    password: "{{ admin_pass }}"
+  tags: user6
+
+#pip install passlib
+#python -c "from passlib.hash import sha512_crypt; import getpass; print sha512_crypt.encrypt(getpass.getpass())"

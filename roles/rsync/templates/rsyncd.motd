@@ -1,0 +1,2 @@
+Welcome to use the rsync services!
+{{ansible_default_ipv4.address}}

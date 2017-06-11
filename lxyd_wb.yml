@@ -1,0 +1,9 @@
+
+- name: wb
+  hosts: wb
+  gather_facts: True
+  vars_files:
+    - vars/lxyd_wb.yml
+  roles:
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.game}}",nginx_type: php }
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.phpmyadmin}}",nginx_type: php }

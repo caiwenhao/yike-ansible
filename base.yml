@@ -1,0 +1,75 @@
+- name: base_zk_online
+  hosts: base_zk_online
+  gather_facts: True
+  vars_files:
+    - vars/base.yml
+  roles:
+    - { role: zookeeper,zk: "{{zookeepers.base_online}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+
+
+- name: base_kafka_online
+  hosts: base_kafka_online
+  gather_facts: True
+  vars_files:
+    - vars/base.yml
+  roles:
+    - { role: zookeeper,zk: "{{zookeepers.base_online_kafka}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+    - { role: kafka,kf: "{{kafka.base_online}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+
+- name: base_zk
+  hosts: base_zk
+  gather_facts: True
+  vars_files:
+    - vars/base.yml
+  roles:
+    - { role: zookeeper,zk: "{{zookeepers.base}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+
+- name:  base_kafka
+  hosts: base_kafka
+  gather_facts: True
+  vars_files:
+    - vars/base.yml
+  roles:
+    - { role: kafka,kf: "{{kafka.base}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+
+- name: base_logs
+  hosts: base_logs
+  gather_facts: True
+  vars_files:
+    - vars/base.yml
+  roles:
+    - { role: zookeeper,zk: "{{zookeepers.base_logs}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+    - { role: kafka,kf: "{{kafka.base_log}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+
+- name: base_disconf
+  hosts: base_disconf
+  gather_facts: True
+  vars_files:
+    - vars/base.yml
+  roles:
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.disconf}}",nginx_type: disconf  }
+    - { role: tomcat,site: "{{sites.disconf}}",jdk_version: jdk1.7.0_79,jdk_tar: jdk-7u79-linux-x64.tar.gz }
+
+- name: base_logs_online
+  hosts: base_logs_online
+  gather_facts: True
+  roles:
+    - { role: jdk,jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+
+- name: 10.10.23.126
+  hosts: 10.10.23.126
+  gather_facts: True
+  vars_files:
+    - vars/base.yml
+  roles:
+    - { role: flume,flume: "{{flume_info.flume_test}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+
+
+- name: logs_kafka
+  hosts: logs_kafka
+  gather_facts: True
+  vars_files:
+    - vars/base.yml
+  roles:
+    - { role: zookeeper,zk: "{{zookeepers.logs_kafka}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+    - { role: kafka,kf: "{{kafka.logs_kafka}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }

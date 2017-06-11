@@ -1,0 +1,7 @@
+---
+
+- name: install LogstashClient
+  hosts: 10.10.180.148:10.10.74.171:10.10.72.175
+  gather_facts: no
+  roles:
+   - { role: logstash-client, LogstashClient_file: "/dist/src/logstash-client.tar.gz", LogstashClient_install: "/data/apps/logstash-1.5.0/", LogstashClient_log: "/data/logs/center_logs/", Conf: ["mysql_slow.conf"] }

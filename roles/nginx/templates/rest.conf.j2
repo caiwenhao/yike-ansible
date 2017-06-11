@@ -1,0 +1,133 @@
+{% if enable_upstream %}
+{% for item in soa %}
+{% if item.rest %}
+upstream {{site.domain}}-{{item.name}}_service {
+        server {{item.name}}-svc.{{soa_info.project_env}}.svc.cluster.local:8080;
+        keepalive 2560;
+    }
+{% endif %}
+{% endfor %}
+{% endif %}
+
+server {
+    listen          80 ;
+    server_name     {{site.domain}}{{domain_lx}};
+    charset         utf-8;
+    access_log      /data/logs/nginx/{{site.domain}}_access.log access;
+
+    {% if site.static == "True" %}
+
+    location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|ico)$ {
+       expires      1d;
+    }
+
+    location ~ .*\.(js|css)$ {
+       expires      10h;
+    }
+    {% endif %}
+
+    location = /lxwd_logo.png {
+        expires      off;
+    }
+
+    location = /favicon.ico {
+        expires      7d;
+    }
+    location = /MP_verify_WZzP06EfAt5aFEZu.txt {
+        root {{site.root}}/wechat;
+    }
+
+    location /sms {
+        chunked_transfer_encoding on;
+        rewrite /sms/(.*) /sms/$1 break;
+        rewrite /sms /sms/ permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://{{site.domain}}-sms_service;
+    }
+
+    location /wxapi {
+        chunked_transfer_encoding on;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass   https://api.weixin.qq.com/sns/oauth2/access_token;
+    }
+    location /commons_rest {
+        chunked_transfer_encoding on;
+        rewrite /commons_rest/(.*) /$1 break;
+        rewrite /commons_rest$ / permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://{{site.domain}}-commons_service;
+    }
+    location /lxyd_admin {
+        chunked_transfer_encoding on;
+        rewrite /lxyd_admin/(.*) /$1 break;
+        rewrite /lxyd_admin$ / permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://{{site.domain}}-wms_service;
+    }
+
+    location /devicegateway_service/data/ {
+        chunked_transfer_encoding on;
+        rewrite /devicegateway_service/data/(.*) /data/$1 break;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://{{site.domain}}-devicegateway_service;
+    }
+
+    location /devicedataservice {
+        # 删除指定header
+        more_clear_headers "Access-Control-Allow-Origin";
+        more_clear_headers "Access-Control-Allow-Methods";
+        more_clear_headers "Access-Control-Allow-Headers";
+        chunked_transfer_encoding on;
+        rewrite /devicedataservice/(.*) /devicedataservice/$1 break;
+        rewrite /devicedataservice$ /devicedataservice/ permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://{{site.domain}}-devicegateway_service;
+    }
+
+{% for item in soa %}
+{% if item.rest %}
+    location /{{item.name}}_service {
+        chunked_transfer_encoding on;
+        rewrite /{{item.name}}_service/(.*) /$1 break;
+        rewrite /{{item.name}}_service$ / permanent;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass      http://{{site.domain}}-{{item.name}}_service;
+    }
+{% endif %}
+{% endfor %}
+
+}

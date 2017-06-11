@@ -1,0 +1,59 @@
+user  www;
+worker_processes  auto;
+error_log  /data/logs/nginx/error.log;
+pid        /data/logs/nginx/nginx.pid;
+events {
+    use   epoll;
+    worker_connections  65500;
+}
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    log_format   access '$server_name - $remote_user $remote_addr [$time_local] "$request" '
+                        '$status $request_time $bytes_sent $body_bytes_sent "$http_referer" '
+                        '"$http_user_agent" "$http_x_forwarded_for" "$upstream_addr" '
+                        '"$upstream_status" $upstream_response_time $request_length';
+    access_log      off;
+    sendfile        on;
+    tcp_nopush      on;
+    tcp_nodelay     on;
+    server_tokens   off;
+    keepalive_timeout  {{site.timeout}};
+    server_names_hash_bucket_size 128;
+    client_header_buffer_size 32k;
+    large_client_header_buffers 4 32k;
+    client_body_buffer_size  512k;
+    client_max_body_size 10m;
+    proxy_connect_timeout    {{site.timeout}};
+    proxy_read_timeout       {{site.timeout}};
+    proxy_send_timeout       {{site.timeout}};
+    proxy_buffer_size        32k;
+    proxy_buffers            4 64k;
+    proxy_busy_buffers_size 128k;
+    proxy_temp_file_write_size 64k;
+    proxy_ignore_client_abort {{site.ignore_client}};
+    proxy_next_upstream off;
+    gzip  on;
+    gzip_min_length 1k;
+    gzip_buffers 8 128k;
+    gzip_http_version 1.1;
+    gzip_comp_level 9;
+    gzip_types application/x-javascript application/javascript application/xhtml+xml application/xml text/css text/plain;
+    gzip_vary  on;
+    check_shm_size 20M;
+
+    server {
+       listen 80;
+       server_name _;
+       return 404;
+    }
+
+    server {
+        listen 127.0.0.1:80;
+        server_name 127.0.0.1 ;
+        access_log off;
+        location /nginx-status { stub_status on;}
+        location /upstream-status { check_status ;}
+    }
+    include   vhost/*.conf;
+}

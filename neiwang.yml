@@ -1,0 +1,38 @@
+---
+
+- name: zk
+  hosts: zk
+  gather_facts: True
+  vars_files:
+    - vars/zk.yml
+  roles:
+    - { role: zookeeper,zk: "{{zookeepers.neiwang}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+
+- name:  kafka
+  hosts: kafka
+  gather_facts: True
+  vars_files:
+    - vars/kafka.yml
+  roles:
+    - { role: kafka,kf: "{{kafka.neiwang}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+
+- name: test
+  hosts: test
+  gather_facts: True
+  vars_files:
+    - vars/sites.yml
+  roles:
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.openapi}}" }
+    - { role: tomcat,site: "{{sites.openapi}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz}
+
+- name: zk_kafka
+  hosts: 192.168.20.39
+  gather_facts: True
+  vars_files:
+    - vars/zk.yml
+    - vars/kafka.yml
+    - vars/sites.yml
+  roles:
+    - { role: zookeeper,zk: "{{zookeepers.zs_perf}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+    - { role: kafka,kf: "{{kafka.zs_perf}}",jdk_version: jdk-1.8.0,jdk_tar: jdk-1.8.0.tar.gz }
+    - { role: nginx,enbale_nginx: true,enbale_vhost: true,site: "{{sites.openapi}}" }

@@ -1,0 +1,32 @@
+soa_env:
+  project_env: "lifesense-dev"
+  tingyun: "false"
+  log_level: "debug"
+
+sites:
+  sports:
+    domain: "sports-dev"
+    root: "/data/web/webapps/"
+    timeout: 60
+    ignore_client: "on"
+    static: "False"
+  health:
+    domain: "health-dev"
+    root: "/data/web/webapps/"
+    timeout: 60
+    ignore_client: "on"
+    static: "False"
+  websocket:
+    domain: "websocket-dev"
+    root: "/data/web/webapps/"
+    timeout: 60
+    ignore_client: "on"
+    static: "False"
+    nginx:
+      - ip: '10.10.236.250'
+  static:
+    domain: "static-dev"
+    root: "/data/web/webapps/static-dev"
+    timeout: 180
+    ignore_client: "on"
+    static: "False"
