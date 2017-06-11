@@ -6,9 +6,10 @@ web
 app
 
 [web]
-172.18.8.82 PS1=uxj-web-online NUM=A0
-172.18.8.83 PS1=uxj-web-online NUM=A1
+172.18.8.80 PS1=uxj-web-online NUM=A0
+172.18.8.81 PS1=uxj-web-online NUM=A1
 
 [app]
-172.18.8.80 PS1=uxj-app-online NUM=A0
-172.18.8.81 PS1=uxj-app-online NUM=A1
+172.18.8.82 PS1=uxj-app-online NUM=A0
+172.18.8.83 PS1=uxj-app-online NUM=A1
+
